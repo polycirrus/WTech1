@@ -1,7 +1,5 @@
 package by.bsuir.lab01.controller;
 
-import by.bsuir.lab01.bean.Request;
-import by.bsuir.lab01.bean.Response;
 import by.bsuir.lab01.controller.command.Command;
 import by.bsuir.lab01.controller.command.CommandException;
 import by.bsuir.lab01.controller.command.CommandHelper;

@@ -9,7 +9,10 @@ public class Book {
     protected String isbn;
     protected String publicationDate;
     
-    public Book(String title, String author, String isbn, String publicationDate){
+    public Book(String title, String author, String isbn, String publicationDate) throws IllegalArgumentException {
+        if (title == null)
+            throw new IllegalArgumentException("Title field cannot be null.");
+
         this.title = title;
         this.author = author;
         this.isbn = isbn;
@@ -25,7 +28,7 @@ public class Book {
     }
     
     public String getIsbn(){
-        return title;
+        return isbn;
     }
     
     public String getPublicationDate(){
