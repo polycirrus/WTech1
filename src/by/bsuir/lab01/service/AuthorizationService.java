@@ -7,9 +7,7 @@ import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Session;
 import by.bsuir.lab01.entity.User;
 import by.bsuir.lab01.entity.UserCredentials;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.UUID;
 
 public class AuthorizationService {
@@ -40,9 +38,9 @@ public class AuthorizationService {
         }
     }
 
-    public static void Register(User user) throws ServiceException {
+    public static void Register(UserCredentials credentials) throws ServiceException {
         try {
-            getDao().addUser(user);
+            getDao().addUser(new User(credentials, AccessLevel.USER));
         } catch (DaoException e) {
             throw new ServiceException("Could not register: data access failed", e);
         }

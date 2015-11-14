@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class FileLibraryDao implements LibraryDao {
 
@@ -66,7 +67,7 @@ public class FileLibraryDao implements LibraryDao {
 
     @Override
     public Collection<Book> findBooksByAuthor(String author) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return findBooks(book -> book.getAuthor().equals(author));
     }
 
     @Override
@@ -123,5 +124,29 @@ public class FileLibraryDao implements LibraryDao {
 
         return builder.toString();
     }
-    
+
+    private Collection<Book> findBooks(Predicate<Book> filter) throws DaoException {
+        List<String> lines;
+        try {
+            lines = Files.readAllLines(Paths.get(fileName));
+        }
+        catch (IOException exception) {
+            throw new DaoException(String.format("An error occurred while reading from file %s.", fileName), exception);
+        }
+
+        List<Book> books = new ArrayList<>(lines.size());
+        for (String line : lines) {
+            try {
+                Book book = parseLine(line);
+                if (filter.test(book))
+                    books.add(book);
+            }
+            catch (IllegalArgumentException exception) {
+                //log
+            }
+        }
+
+        return books;
+    }
+
 }

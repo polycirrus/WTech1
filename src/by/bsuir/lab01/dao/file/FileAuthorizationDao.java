@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 import static by.bsuir.lab01.entity.AccessLevel.valueOf;
 
@@ -129,7 +130,7 @@ public class FileAuthorizationDao implements AuthorizationDao {
 
     @Override
     public void removeSession(String sessionId) throws DaoException {
-        Session[] newSessions = (Session[])getSessions().stream().filter(session -> !session.sessionId.equals(sessionId)).toArray();
+        Session[] newSessions = getSessions().stream().filter(session -> !session.sessionId.equals(sessionId)).toArray(Session[]::new);
 
         try {
             Files.delete(Paths.get(sessionsFileName));
