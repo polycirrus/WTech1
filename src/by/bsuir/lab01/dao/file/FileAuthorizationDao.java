@@ -6,12 +6,16 @@ import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Session;
 import by.bsuir.lab01.entity.User;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static by.bsuir.lab01.entity.AccessLevel.valueOf;
 
@@ -52,9 +56,14 @@ public class FileAuthorizationDao implements AuthorizationDao {
     }
 
     @Override
+    public Collection<User> getUsers(AccessLevel accessLevel) throws DaoException {
+        return getUsers().stream().filter(user -> user.getAccessLevel() == accessLevel).collect(Collectors.toList());
+    }
+
+    @Override
     public User getUser(String login) throws DaoException {
         Collection<User> users = getUsers();
-        return users.stream().filter(user -> user.getLogin().equals(login)).findFirst().orElse(null);
+        return users.stream().filter(user -> user.getEmailAddress().equals(login)).findFirst().orElse(null);
     }
 
     @Override
@@ -161,7 +170,7 @@ public class FileAuthorizationDao implements AuthorizationDao {
     }
 
     private static String userToString(User user) {
-        StringBuilder builder = new StringBuilder(user.getLogin());
+        StringBuilder builder = new StringBuilder(user.getEmailAddress());
         builder.append('\0');
         builder.append(user.getPasswordHash());
         builder.append('\0');

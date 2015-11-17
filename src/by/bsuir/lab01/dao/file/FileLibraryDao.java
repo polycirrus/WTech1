@@ -36,8 +36,7 @@ public class FileLibraryDao implements LibraryDao {
             writer.newLine();
 
             writer.close();
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             throw new DaoException(String.format("An error occurred while writing to file %s.", fileName), exception);
         }
     }
@@ -47,8 +46,7 @@ public class FileLibraryDao implements LibraryDao {
         List<String> lines;
         try {
             lines = Files.readAllLines(Paths.get(fileName));
-        }
-        catch (IOException exception) {
+        } catch (IOException exception) {
             throw new DaoException(String.format("An error occurred while reading from file %s.", fileName), exception);
         }
 
@@ -56,8 +54,7 @@ public class FileLibraryDao implements LibraryDao {
         for (String line : lines) {
             try {
                 books.add(parseLine(line));
-            }
-            catch (IllegalArgumentException exception) {
+            } catch (IllegalArgumentException exception) {
                 //log
             }
         }
@@ -115,7 +112,7 @@ public class FileLibraryDao implements LibraryDao {
         if (fields.get(0).length() == 0)
             throw new IllegalArgumentException(String.format("\"%s\": illegal format: title must be present.", line));
 
-        return new Book(fields.get(0), fields.get(1), fields.get(2), fields.get(3));
+        return new Book(fields.get(0), fields.get(1), fields.get(2), fields.get(3) != null && Boolean.parseBoolean(fields.get(3)));
     }
 
     private String bookToString(Book book) {
@@ -132,9 +129,7 @@ public class FileLibraryDao implements LibraryDao {
             builder.append(nextField);
 
         builder.append('\0');
-        nextField = book.getPublicationDate();
-        if (nextField != null)
-            builder.append(nextField);
+        builder.append(book.isPhysical());
 
         return builder.toString();
     }

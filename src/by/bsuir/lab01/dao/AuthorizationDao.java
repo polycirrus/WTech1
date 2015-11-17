@@ -1,11 +1,15 @@
 package by.bsuir.lab01.dao;
 
+import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Session;
 import by.bsuir.lab01.entity.User;
+
 import java.util.Collection;
 
 public interface AuthorizationDao {
     public Collection<User> getUsers() throws DaoException;
+
+    public Collection<User> getUsers(AccessLevel accessLevel) throws DaoException;
     public User getUser(String login) throws DaoException;
     public void addUser(User newUser) throws DaoException;
 

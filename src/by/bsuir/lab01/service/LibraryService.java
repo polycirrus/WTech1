@@ -24,6 +24,12 @@ public class LibraryService {
         } catch (ServiceException e) {
             throw new ServiceException("Unable to add book: " + e.getMessage(), e);
         }
+
+        try {
+            CommunicationService.SendNewsletter(sessionId, "A new book has been added to the library: " + newBook.toString());
+        } catch (ServiceException exception) {
+            //log
+        }
     }
 
     public static Collection<Book> getBooks(String sessionId) throws ServiceException {

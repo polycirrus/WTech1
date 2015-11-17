@@ -5,17 +5,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class User {
+    private String emailAddress;
+    private String passwordHash;
+    private AccessLevel accessLevel;
 
-    protected String login;
-    protected String passwordHash;
-    protected AccessLevel accessLevel;
-
-    public User(String login, String password, AccessLevel accessLevel) {
-        this(login, password, accessLevel, false);
+    public User(String emailAddress, String password, AccessLevel accessLevel) throws IllegalArgumentException {
+        this(emailAddress, password, accessLevel, false);
     }
 
-    public User(String login, String password, AccessLevel accessLevel, boolean hashPassword){
-        this.login = login;
+    public User(String emailAddress, String password, AccessLevel accessLevel, boolean hashPassword) throws IllegalArgumentException {
+        this.emailAddress = emailAddress;
         this.passwordHash = hashPassword ? getHashString(password) : password;
         this.accessLevel = accessLevel;
     }
@@ -23,14 +22,11 @@ public class User {
     public User(UserCredentials credentials, AccessLevel accessLevel) {
         this(credentials.login, credentials.password, accessLevel, true);
     }
-    
-    public String getLogin() { return login; }
-    
-    public String getPasswordHash() { return passwordHash; }
 
-    public AccessLevel getAccessLevel() { return accessLevel; }
+    public static String getHashString(String password) throws IllegalArgumentException {
+        if (password == null)
+            throw new IllegalArgumentException("Password string cannot be null");
 
-    public static String getHashString(String password) {
         MessageDigest digest;
         try
         {
@@ -42,5 +38,39 @@ public class User {
 
         digest.reset();
         return new String(digest.digest(password.getBytes()), Charset.defaultCharset());
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
+    }
+
+    public void setEmailAddress(String emailAddress) throws IllegalArgumentException {
+        if (emailAddress == null)
+            throw new IllegalArgumentException("Email address cannot be null.");
+
+        //verify?
+        this.emailAddress = emailAddress;
+    }
+
+    public void setPasswordHash(String passwordHash) throws IllegalArgumentException {
+        if (passwordHash == null)
+            throw new IllegalArgumentException("Password hash string cannot be null.");
+
+        this.passwordHash = passwordHash;
+    }
+
+    public void setAccessLevel(AccessLevel accessLevel) throws IllegalArgumentException {
+        if (accessLevel == null)
+            throw new IllegalArgumentException("Access level cannot be null.");
+
+        this.accessLevel = accessLevel;
     }
 }
