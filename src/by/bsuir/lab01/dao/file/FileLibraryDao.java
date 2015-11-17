@@ -67,22 +67,36 @@ public class FileLibraryDao implements LibraryDao {
 
     @Override
     public Collection<Book> findBooksByAuthor(String author) throws DaoException {
-        return findBooks(book -> book.getAuthor().equals(author));
+        return findBooks(book -> author.equals(book.getAuthor()));
     }
 
     @Override
     public Collection<Book> findBooksByTitle(String title) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return findBooks(book -> title.equals(book.getTitle()));
     }
 
     @Override
     public Book findBookByIsbn(String isbn) throws DaoException {
-        return null;
+        return findBooks(book -> isbn.equals(book.getIsbn())).stream().findFirst().orElse(null);
     }
 
     @Override
-    public boolean removeBook(String isbn) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean removeBook(String title) throws DaoException {
+        Collection<Book> books = getBooks();
+
+        Book[] newBooks = books.stream().filter(book -> !book.getTitle().equals(title)).toArray(Book[]::new);
+        boolean result = newBooks.length < books.size();
+
+        try {
+            Files.delete(Paths.get(fileName));
+        } catch (IOException exception) {
+            throw new DaoException(String.format("An error occurred while writing to file %s.", fileName), exception);
+        }
+
+        for (Book book : newBooks)
+            addBook(book);
+
+        return result;
     }
 
     private Book parseLine(String line) throws IllegalArgumentException {

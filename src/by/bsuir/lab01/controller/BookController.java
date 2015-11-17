@@ -5,9 +5,9 @@ import by.bsuir.lab01.controller.command.CommandException;
 import by.bsuir.lab01.controller.command.CommandHelper;
 
 public class BookController {
+
 	private CommandHelper commandList = new CommandHelper();
-	
-	
+
 	public Response executeRequest(Request request){
 		Response response = null;
 		try{
@@ -20,4 +20,5 @@ public class BookController {
 		}
 		return response;		
 	}
+
 }

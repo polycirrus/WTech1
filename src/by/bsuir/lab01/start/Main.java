@@ -33,7 +33,9 @@ public class Main {
         Collection<Book> books;
         ArrayList<User> users;
         try {
-            String sid = AuthorizationService.SignIn(cred1);
+//            AuthorizationService.Register(cred1);
+//
+//            String sid = AuthorizationService.SignIn(cred1);
             LibraryDao dao = DaoFactory.getDaoFactory().getLibraryDao();
 //            AuthorizationDao aDao = DaoFactory.getDaoFactory().getAuthorizationDao();
 
@@ -62,7 +64,7 @@ public class Main {
 //            String sid = AuthorizationService.SignIn(cred1);
 //            AuthorizationService.SignOut(sid);
 //            LibraryService.addBook(sid, book6);
-        } catch (DaoException | ServiceException e) {
+        } catch (DaoException/* | ServiceException*/ e) {
             System.out.println(e.getMessage());
             return;
         }

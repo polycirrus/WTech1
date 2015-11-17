@@ -26,7 +26,7 @@ public class AuthorizationService {
 
             return sessionId;
         } catch (DaoException e) {
-            throw new ServiceException("Could not sign in: data access failed", e);
+            throw new ServiceException("Could not sign in: data access failed.", e);
         }
     }
 
@@ -34,7 +34,7 @@ public class AuthorizationService {
         try {
             getDao().removeSession(sessionId);
         } catch (DaoException e) {
-            throw new ServiceException("Could not sign out: data access failed", e);
+            throw new ServiceException("Could not sign out: data access failed.", e);
         }
     }
 
@@ -42,7 +42,7 @@ public class AuthorizationService {
         try {
             getDao().addUser(new User(credentials, AccessLevel.USER));
         } catch (DaoException e) {
-            throw new ServiceException("Could not register: data access failed", e);
+            throw new ServiceException("Could not register: data access failed.", e);
         }
     }
 
@@ -55,7 +55,7 @@ public class AuthorizationService {
 
             return session.accessLevel.ordinal() >= requestedAccess.ordinal();
         } catch (DaoException e) {
-            throw new ServiceException("Could not sign in: data access failed", e);
+            throw new ServiceException("Could not sign in: data access failed.", e);
         }
     }
 
