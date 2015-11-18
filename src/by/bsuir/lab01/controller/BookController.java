@@ -16,7 +16,7 @@ public class BookController {
 			response = command.execute(request);
 		}catch(CommandException ex){
 			response = new Response();
-			response.setErrorMessage("Error message!");
+			response.setErrorMessage(ex.getMessage());
 		}
 		return response;		
 	}

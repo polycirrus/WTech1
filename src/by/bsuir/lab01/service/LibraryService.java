@@ -100,11 +100,11 @@ public class LibraryService {
         return result;
     }
 
-    public static boolean removeBooksByTitle(String sessionId, String title) throws ServiceException {
+    public static int removeBooksByTitle(String sessionId, String title) throws ServiceException {
         if (!AuthorizationService.Authenticate(sessionId, AccessLevel.ADMINISTRATOR))
             throw new ServiceException("Unable to add book: insufficient access level.");
 
-        boolean result;
+        int result;
         try {
             LibraryDao dao = getDao();
             result = dao.removeBook(title);

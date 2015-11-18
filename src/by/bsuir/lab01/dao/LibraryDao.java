@@ -9,5 +9,5 @@ public interface LibraryDao {
     public Collection<Book> findBooksByTitle(String title) throws DaoException;
     public Book findBookByIsbn(String isbn) throws DaoException;
     public void addBook(Book newBook) throws DaoException;
-    public boolean removeBook(String isbn) throws DaoException;
+    public int removeBook(String isbn) throws DaoException;
 }

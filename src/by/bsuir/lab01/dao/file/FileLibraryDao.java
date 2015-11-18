@@ -78,11 +78,11 @@ public class FileLibraryDao implements LibraryDao {
     }
 
     @Override
-    public boolean removeBook(String title) throws DaoException {
+    public int removeBook(String title) throws DaoException {
         Collection<Book> books = getBooks();
 
         Book[] newBooks = books.stream().filter(book -> !book.getTitle().equals(title)).toArray(Book[]::new);
-        boolean result = newBooks.length < books.size();
+        int result = books.size() - books.size();
 
         try {
             Files.delete(Paths.get(fileName));
