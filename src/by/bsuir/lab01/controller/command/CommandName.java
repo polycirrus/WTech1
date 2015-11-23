@@ -1,5 +1,7 @@
 package by.bsuir.lab01.controller.command;
 
 public enum CommandName {
-	ADD_NEW_BOOK, LOGIN_USER
+    ADD_BOOK, GET_BOOKS, FIND_BOOKS_BY_TITLE, FIND_BOOKS_BY_AUTHOR, FIND_BOOKS_BY_ISBN, REMOVE_BOOKS_BY_TITLE,
+    REGISTER, SIGN_IN, SIGN_OUT,
+    SUGGEST_NEW_BOOK
 }
