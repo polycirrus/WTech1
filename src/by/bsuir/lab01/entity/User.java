@@ -1,5 +1,7 @@
 package by.bsuir.lab01.entity;
 
+import by.bsuir.lab01.bean.UserCredentials;
+
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

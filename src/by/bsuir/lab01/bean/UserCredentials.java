@@ -1,7 +1,6 @@
-package by.bsuir.lab01.entity;
+package by.bsuir.lab01.bean;
 
 public class UserCredentials {
-
     public String login;
     public String password;
 
@@ -11,5 +10,4 @@ public class UserCredentials {
         this.login = login;
         this.password = password;
     }
-
 }

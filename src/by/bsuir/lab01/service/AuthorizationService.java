@@ -6,7 +6,7 @@ import by.bsuir.lab01.dao.DaoFactory;
 import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Session;
 import by.bsuir.lab01.entity.User;
-import by.bsuir.lab01.entity.UserCredentials;
+import by.bsuir.lab01.bean.UserCredentials;
 
 import java.util.UUID;
 

@@ -6,7 +6,7 @@ import by.bsuir.lab01.dao.LibraryDao;
 import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Book;
 import by.bsuir.lab01.entity.User;
-import by.bsuir.lab01.entity.UserCredentials;
+import by.bsuir.lab01.bean.UserCredentials;
 
 import java.util.ArrayList;
 import java.util.Collection;

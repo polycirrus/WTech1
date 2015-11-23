@@ -23,12 +23,12 @@ public class CommunicationService {
     }
 
     public static void SuggestNewBook(String sessionId, String message) throws ServiceException {
-        if (!AuthorizationService.Authenticate(sessionId, AccessLevel.ADMINISTRATOR))
+        if (!AuthorizationService.Authenticate(sessionId, AccessLevel.USER))
             throw new ServiceException("Unable to send newsletter: insufficient access level.");
 
         Collection<User> administrators;
         try {
-            administrators = DaoFactory.getDaoFactory().getAuthorizationDao().getUsers(AccessLevel.ADMINISTRATOR);
+            administrators = DaoFactory.getDaoFactory().getAuthorizationDao().getUsers(AccessLevel.USER);
         } catch (DaoException exception) {
             throw new ServiceException("Unable to send messages: data access failed.");
         }
