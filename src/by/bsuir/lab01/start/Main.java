@@ -3,6 +3,7 @@ package by.bsuir.lab01.start;
 import by.bsuir.lab01.bean.UserCredentials;
 import by.bsuir.lab01.entity.Book;
 import by.bsuir.lab01.entity.User;
+import by.bsuir.lab01.view.console.ConsoleView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -63,6 +64,8 @@ public class Main {
             return;
         }
 
+        ConsoleView view = new ConsoleView();
+        view.view();
 //        for (Book book : books) {
 //            System.out.println(book);
 //        }
