@@ -1,6 +1,10 @@
 package by.bsuir.lab01.start;
 
 import by.bsuir.lab01.bean.UserCredentials;
+import by.bsuir.lab01.dao.AuthorizationDao;
+import by.bsuir.lab01.dao.DaoFactory;
+import by.bsuir.lab01.dao.LibraryDao;
+import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Book;
 import by.bsuir.lab01.entity.User;
 import by.bsuir.lab01.view.console.ConsoleView;
@@ -20,7 +24,9 @@ public class Main {
         Book book7 = new Book("Book7", null, null, true);
         Book book8 = new Book("Book8", null, "0008", false);
 
-//        User user1 = new User("user1", "fgsfds1", , AccessLevel.USER, true);
+        User user1 = new User("user1@abc.com", "fgsfds", AccessLevel.USER, true);
+        User user2 = new User("user2@abc.com", "fdsfgs", AccessLevel.USER, true);
+        User admin = new User("admin@abc.com", "admin", AccessLevel.ADMINISTRATOR, true);
         UserCredentials cred1 = new UserCredentials("user1", "fgsfds1");
 
         Collection<Book> books;
@@ -31,7 +37,7 @@ public class Main {
 //            String sid = AuthorizationService.SignIn(cred1);
 //            LibraryDao dao = DaoFactory.getDaoFactory().getLibraryDao();
 //            AuthorizationDao aDao = DaoFactory.getDaoFactory().getAuthorizationDao();
-
+//
 //            dao.addBook(book1);
 //            dao.addBook(book2);
 //            dao.addBook(book3);
@@ -48,6 +54,8 @@ public class Main {
 //            books = dao.getBooks();
 
 //            aDao.addUser(user1);
+//            aDao.addUser(user2);
+//            aDao.addUser(admin);
 //
 //            users = (ArrayList<User>)aDao.getUsers();
 //            System.out.println(user1.getPasswordHash());
@@ -70,5 +78,4 @@ public class Main {
 //            System.out.println(book);
 //        }
 	}
-
 }

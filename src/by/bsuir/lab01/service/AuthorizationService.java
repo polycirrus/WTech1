@@ -17,9 +17,9 @@ public class AuthorizationService {
         try {
             AuthorizationDao dao = getDao();
 
-            User target = dao.getUser(credentials.login);
+            User target = dao.getUser(credentials.getEmailAddress());
 
-            if (target == null || !target.getPasswordHash().equals(User.getHashString(credentials.password)))
+            if (target == null || !target.getPasswordHash().equals(User.getHashString(credentials.getPassword())))
                 throw new ServiceException("Invalid login and password combination.");
 
             String sessionId = UUID.randomUUID().toString();

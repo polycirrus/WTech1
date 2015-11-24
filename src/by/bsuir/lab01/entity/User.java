@@ -22,7 +22,7 @@ public class User {
     }
 
     public User(UserCredentials credentials, AccessLevel accessLevel) {
-        this(credentials.login, credentials.password, accessLevel, true);
+        this(credentials.getEmailAddress(), credentials.getPassword(), accessLevel, true);
     }
 
     public static String getHashString(String password) throws IllegalArgumentException {
@@ -39,7 +39,12 @@ public class User {
         }
 
         digest.reset();
-        return new String(digest.digest(password.getBytes()), Charset.defaultCharset());
+        byte[] hash = digest.digest(password.getBytes());
+        for (int i = 0; i < hash.length; i++)
+            if (hash[i] == (byte) '\n' || hash[i] == (byte) '\0' || hash[i] == (byte) '\r')
+                hash[i] ^= -1;
+
+        return new String(hash, Charset.defaultCharset());
     }
 
     public String getEmailAddress() {
