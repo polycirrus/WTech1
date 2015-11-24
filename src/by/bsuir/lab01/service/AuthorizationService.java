@@ -1,18 +1,19 @@
 package by.bsuir.lab01.service;
 
+import by.bsuir.lab01.bean.SessionInfo;
+import by.bsuir.lab01.bean.UserCredentials;
 import by.bsuir.lab01.dao.AuthorizationDao;
 import by.bsuir.lab01.dao.DaoException;
 import by.bsuir.lab01.dao.DaoFactory;
 import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Session;
 import by.bsuir.lab01.entity.User;
-import by.bsuir.lab01.bean.UserCredentials;
 
 import java.util.UUID;
 
 public class AuthorizationService {
 
-    public static String SignIn(UserCredentials credentials) throws ServiceException {
+    public static SessionInfo SignIn(UserCredentials credentials) throws ServiceException {
         try {
             AuthorizationDao dao = getDao();
 
@@ -24,7 +25,11 @@ public class AuthorizationService {
             String sessionId = UUID.randomUUID().toString();
             dao.addSession(new Session(sessionId, target.getAccessLevel()));
 
-            return sessionId;
+            SessionInfo sessionInfo = new SessionInfo();
+            sessionInfo.setAccessLevel(target.getAccessLevel());
+            sessionInfo.setSessionId(sessionId);
+
+            return sessionInfo;
         } catch (DaoException e) {
             throw new ServiceException("Could not sign in: data access failed.", e);
         }

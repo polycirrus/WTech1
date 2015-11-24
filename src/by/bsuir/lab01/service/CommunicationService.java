@@ -3,6 +3,7 @@ package by.bsuir.lab01.service;
 import by.bsuir.lab01.dao.DaoException;
 import by.bsuir.lab01.dao.DaoFactory;
 import by.bsuir.lab01.entity.AccessLevel;
+import by.bsuir.lab01.entity.Book;
 import by.bsuir.lab01.entity.User;
 
 import java.util.Collection;
@@ -22,7 +23,7 @@ public class CommunicationService {
         SendMessage(users, message);
     }
 
-    public static void SuggestNewBook(String sessionId, String message) throws ServiceException {
+    public static void SuggestNewBook(String sessionId, Book newBook) throws ServiceException {
         if (!AuthorizationService.Authenticate(sessionId, AccessLevel.USER))
             throw new ServiceException("Unable to send newsletter: insufficient access level.");
 
@@ -33,7 +34,7 @@ public class CommunicationService {
             throw new ServiceException("Unable to send messages: data access failed.");
         }
 
-        SendMessage(administrators, "New book suggestion: " + message);
+        SendMessage(administrators, "New book suggestion: " + newBook.toString());
     }
 
     private static void SendMessage(Collection<User> users, String message) {
