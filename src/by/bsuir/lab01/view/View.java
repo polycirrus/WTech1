@@ -8,15 +8,5 @@ public abstract class View {
     protected String sessionId = null;
     protected AccessLevel accessLevel = AccessLevel.NONE;
 
-    public void view() {
-//		NewBookRequest request = new NewBookRequest();
-//		// set patameters into request
-//		Response response = controller.executeRequest(request);
-//		if (response.getErrorMessage() == null){
-//			// System.out.println("error");
-//		} else {
-//			NewBookResponse newBookResponse = (NewBookResponse)response;
-//			// System.out.println...
-//		}
-    }
+    public abstract void view();
 }

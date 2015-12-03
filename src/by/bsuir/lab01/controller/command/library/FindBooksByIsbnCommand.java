@@ -10,6 +10,7 @@ import by.bsuir.lab01.entity.Book;
 import by.bsuir.lab01.service.LibraryService;
 import by.bsuir.lab01.service.ServiceException;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class FindBooksByIsbnCommand implements Command {
@@ -22,12 +23,16 @@ public class FindBooksByIsbnCommand implements Command {
             throw new CommandException("Invalid request.");
         }
 
-        Collection<Book> books;
+        Book book;
         try {
-            books = LibraryService.findBooksByAuthor(fRequest.getSessionId(), fRequest.getIsbn());
+            book = LibraryService.findBooksByIsbn(fRequest.getSessionId(), fRequest.getIsbn());
         } catch (ServiceException exception) {
             throw new CommandException(exception.getMessage());
         }
+
+        Collection<Book> books = new ArrayList<>();
+        if (book != null)
+            books.add(book);
 
         GetBooksResponse response = new GetBooksResponse();
         response.setMessage(String.format("Found %d books.", books.size()));

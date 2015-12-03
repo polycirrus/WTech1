@@ -13,7 +13,6 @@ import by.bsuir.lab01.service.ServiceException;
 import java.util.Collection;
 
 public class FindBooksByTitleCommand implements Command {
-
     @Override
     public Response execute(Request request) throws CommandException {
         FindBooksByTitleRequest fRequest;
@@ -25,7 +24,7 @@ public class FindBooksByTitleCommand implements Command {
 
         Collection<Book> books;
         try {
-            books = LibraryService.findBooksByAuthor(fRequest.getSessionId(), fRequest.getTitle());
+            books = LibraryService.findBooksByTitle(fRequest.getSessionId(), fRequest.getTitle());
         } catch (ServiceException exception) {
             throw new CommandException(exception.getMessage());
         }

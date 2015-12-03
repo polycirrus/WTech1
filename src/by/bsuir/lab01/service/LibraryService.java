@@ -68,7 +68,7 @@ public class LibraryService {
 
     public static Collection<Book> findBooksByAuthor(String sessionId, String author) throws ServiceException {
         if (!AuthorizationService.Authenticate(sessionId, AccessLevel.USER))
-            throw new ServiceException("Unable to add book: insufficient access level.");
+            throw new ServiceException("Unable to search: insufficient access level.");
 
         Collection<Book> result;
         try {

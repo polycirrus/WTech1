@@ -2,10 +2,9 @@ package by.bsuir.lab01.view.console;
 
 import by.bsuir.lab01.bean.UserCredentials;
 import by.bsuir.lab01.bean.request.Request;
-import by.bsuir.lab01.bean.request.impl.AddBookRequest;
-import by.bsuir.lab01.bean.request.impl.RegisterRequest;
-import by.bsuir.lab01.bean.request.impl.SignInRequest;
+import by.bsuir.lab01.bean.request.impl.*;
 import by.bsuir.lab01.bean.response.Response;
+import by.bsuir.lab01.bean.response.impl.GetBooksResponse;
 import by.bsuir.lab01.bean.response.impl.SignInResponse;
 import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Book;
@@ -57,40 +56,79 @@ public class ConsoleView extends View {
         }
     }
 
-    public void printMenuItems() {
+    private void printMenuItems() {
         menuItems.entrySet().stream().filter(entry -> entry.getValue().getAccessLevel().ordinal() <= accessLevel.ordinal())
-                .forEach(entry -> System.out.println(entry.getKey() + ":\t" + entry.getValue().getDescription()));
+                .forEach(entry -> System.out.printf("%-10s %s\n", entry.getKey(), entry.getValue().getDescription()));
     }
 
-    public boolean addBook() {
-        AddBookRequest r = new AddBookRequest();
-        r.setNewBook(new Book("a", "b", "c", true));
-        r.setSessionId(null);
-        controller.executeRequest(r);
-        return true;
+    private boolean addBook() {
+        Book newBook = readBook();
+
+        AddBookRequest request = new AddBookRequest();
+        request.setCommandName("ADD_BOOK");
+        request.setSessionId(sessionId);
+        request.setNewBook(newBook);
+
+        return executeRequest(request);
     }
 
-    public boolean findBooksByAuthor() {
-        return true;
+    private boolean findBooksByAuthor() {
+        System.out.print("Author: ");
+        String author = scanner.nextLine();
+
+        FindBooksByAuthorRequest request = new FindBooksByAuthorRequest();
+        request.setSessionId(sessionId);
+        request.setCommandName("FIND_BOOKS_BY_AUTHOR");
+        request.setAuthor(author);
+
+        return executeGetRequest(request);
     }
 
-    public boolean findBooksByIsbn() {
-        return true;
+    private boolean findBooksByIsbn() {
+        System.out.print("ISBN: ");
+        String isbn = scanner.nextLine();
+
+        FindBookByIsbnRequest request = new FindBookByIsbnRequest();
+        request.setSessionId(sessionId);
+        request.setCommandName("FIND_BOOKS_BY_ISBN");
+        request.setIsbn(isbn);
+
+        return executeGetRequest(request);
     }
 
-    public boolean findBooksByTitle() {
-        return true;
+    private boolean findBooksByTitle() {
+        System.out.print("Title: ");
+        String title = scanner.nextLine();
+
+        FindBooksByTitleRequest request = new FindBooksByTitleRequest();
+        request.setSessionId(sessionId);
+        request.setCommandName("FIND_BOOKS_BY_TITLE");
+        request.setTitle(title);
+
+        return executeGetRequest(request);
     }
 
-    public boolean getBooks() {
-        return true;
+    private boolean getBooks() {
+        Request request = new Request();
+        request.setCommandName("GET_BOOKS");
+        request.setSessionId(sessionId);
+
+        return executeGetRequest(request);
     }
 
-    public boolean removeBooksByTitle() {
-        return true;
+    private boolean removeBooksByTitle() {
+        System.out.print("Title: ");
+        String title = scanner.nextLine();
+
+        RemoveBooksByTitleRequest request = new RemoveBooksByTitleRequest();
+        request.setSessionId(sessionId);
+        request.setCommandName("REMOVE_BOOKS_BY_TITLE");
+        request.setTitle(title);
+
+        return executeRequest(request);
     }
 
-    public boolean register() {
+    private boolean register() {
         System.out.print("E-mail: ");
         String email = scanner.nextLine();
         System.out.print("Password: ");
@@ -100,13 +138,10 @@ public class ConsoleView extends View {
         request.setCommandName("REGISTER");
         request.setCredentials(new UserCredentials(email, password));
 
-        Response response = controller.executeRequest(request);
-        System.out.println(response.getMessage());
-
-        return true;
+        return executeRequest(request);
     }
 
-    public boolean signIn() {
+    private boolean signIn() {
         System.out.print("E-mail: ");
         String email = scanner.nextLine();
         System.out.print("Password: ");
@@ -132,7 +167,7 @@ public class ConsoleView extends View {
         return true;
     }
 
-    public boolean signOut() {
+    private boolean signOut() {
         Request request = new Request();
         request.setCommandName("SIGN_OUT");
         request.setSessionId(sessionId);
@@ -146,14 +181,63 @@ public class ConsoleView extends View {
         return true;
     }
 
-    public boolean suggestNewBook() {
-        return true;
+    private boolean suggestNewBook() {
+        Book newBook = readBook();
+
+        SuggestNewBookRequest request = new SuggestNewBookRequest();
+        request.setSessionId(sessionId);
+        request.setNewBook(newBook);
+        request.setCommandName("SUGGEST_NEW_BOOK");
+
+        return executeRequest(request);
     }
 
-    public boolean exit() {
+    private boolean exit() {
         if (sessionId != null)
             signOut();
 
         return true;
+    }
+
+    private boolean executeRequest(Request request) {
+        Response response = controller.executeRequest(request);
+        System.out.println(response.getMessage());
+
+        return true;
+    }
+
+    private boolean executeGetRequest(Request request) {
+        Response response = controller.executeRequest(request);
+        if (!(response instanceof GetBooksResponse)) {
+            System.out.println(response.getMessage());
+            return false;
+        }
+
+        GetBooksResponse gbResponse = (GetBooksResponse) response;
+        System.out.println(gbResponse.getMessage());
+        gbResponse.getBooks().forEach(book -> System.out.println(book.toString()));
+
+        return true;
+    }
+
+    private Book readBook() {
+        System.out.print("Title: ");
+        String title = scanner.nextLine();
+        System.out.print("E-book?: ");
+        boolean physical = !Boolean.parseBoolean(scanner.nextLine());
+
+        Book newBook = new Book(title, physical);
+
+        String field;
+        System.out.print("Author: ");
+        field = scanner.nextLine();
+        if (field.length() > 0)
+            newBook.setAuthor(field);
+        System.out.print("ISBN: ");
+        field = scanner.nextLine();
+        if (field.length() > 0)
+            newBook.setIsbn(field);
+
+        return newBook;
     }
 }

@@ -82,7 +82,7 @@ public class FileLibraryDao implements LibraryDao {
         Collection<Book> books = getBooks();
 
         Book[] newBooks = books.stream().filter(book -> !book.getTitle().equals(title)).toArray(Book[]::new);
-        int result = books.size() - books.size();
+        int result = books.size() - newBooks.length;
 
         try {
             Files.delete(Paths.get(fileName));
