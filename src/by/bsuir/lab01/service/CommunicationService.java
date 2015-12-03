@@ -8,7 +8,17 @@ import by.bsuir.lab01.entity.User;
 
 import java.util.Collection;
 
+/**
+ * Provides functionality for inter-user communications.
+ */
 public class CommunicationService {
+    /**
+     * Sends the specified message to all users.
+     *
+     * @param sessionId the id of the requesting user's current session
+     * @param message   the message to be sent
+     * @throws ServiceException
+     */
     public static void SendNewsletter(String sessionId, String message) throws ServiceException {
         if (!AuthorizationService.Authenticate(sessionId, AccessLevel.ADMINISTRATOR))
             throw new ServiceException("Unable to send newsletter: insufficient access level.");
@@ -23,6 +33,14 @@ public class CommunicationService {
         SendMessage(users, message);
     }
 
+    /**
+     * Sends a suggestion message to all administrators.
+     * @param sessionId
+     * the id of the requesting user's current session
+     * @param newBook
+     * a {@link by.bsuir.lab01.entity.Book} object containing information about the requested book
+     * @throws ServiceException
+     */
     public static void SuggestNewBook(String sessionId, Book newBook) throws ServiceException {
         if (!AuthorizationService.Authenticate(sessionId, AccessLevel.USER))
             throw new ServiceException("Unable to send newsletter: insufficient access level.");

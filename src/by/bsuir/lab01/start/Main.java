@@ -1,9 +1,6 @@
 package by.bsuir.lab01.start;
 
 import by.bsuir.lab01.bean.UserCredentials;
-import by.bsuir.lab01.dao.AuthorizationDao;
-import by.bsuir.lab01.dao.DaoFactory;
-import by.bsuir.lab01.dao.LibraryDao;
 import by.bsuir.lab01.entity.AccessLevel;
 import by.bsuir.lab01.entity.Book;
 import by.bsuir.lab01.entity.User;
@@ -37,7 +34,7 @@ public class Main {
 //            String sid = AuthorizationService.SignIn(cred1);
 //            LibraryDao dao = DaoFactory.getDaoFactory().getLibraryDao();
 //            AuthorizationDao aDao = DaoFactory.getDaoFactory().getAuthorizationDao();
-//
+////
 //            dao.addBook(book1);
 //            dao.addBook(book2);
 //            dao.addBook(book3);

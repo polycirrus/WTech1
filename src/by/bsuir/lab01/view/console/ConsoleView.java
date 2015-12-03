@@ -14,10 +14,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * Handles user input and visualises responses using the standard input and output streams.
+ */
 public class ConsoleView extends View {
     private Map<String, MenuItem> menuItems;
     private Scanner scanner;
 
+    /**
+     * Constructs a new ConsoleView instance.
+     */
     public ConsoleView() {
         menuItems = new HashMap<>();
 
@@ -39,6 +45,9 @@ public class ConsoleView extends View {
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * Starts the input-request-response-output loop.
+     */
     @Override
     public void view() {
         String input = "";
@@ -239,5 +248,14 @@ public class ConsoleView extends View {
             newBook.setIsbn(field);
 
         return newBook;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            exit();
+        } finally {
+            super.finalize();
+        }
     }
 }

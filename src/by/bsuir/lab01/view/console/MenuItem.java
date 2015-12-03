@@ -4,7 +4,7 @@ import by.bsuir.lab01.entity.AccessLevel;
 
 import java.util.function.BooleanSupplier;
 
-public class MenuItem {
+class MenuItem {
     private BooleanSupplier method;
     private String description;
     private AccessLevel accessLevel;
